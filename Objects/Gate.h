@@ -6,8 +6,17 @@
 #define SO2_P3_GATE_H
 
 
-class Gate {
+#include "Base/Resource.h"
 
+class Gate : public Resource {
+public:
+    int id;
+
+    Gate();
+    Gate(const Gate&) = delete;
+    virtual ~Gate();
+
+    static int counter;
 };
 
 

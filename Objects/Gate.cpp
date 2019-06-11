@@ -3,3 +3,13 @@
 //
 
 #include "Gate.h"
+
+int Gate::counter = 0;
+
+Gate::Gate() : id(counter) {
+    Gate::counter++;
+}
+
+Gate::~Gate() {
+    Gate::counter--;
+}

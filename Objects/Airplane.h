@@ -6,8 +6,20 @@
 #define SO2_P3_AIRPLANE_H
 
 
-class Airplane {
+#include "Base/Thread.h"
+#include "Base/Resource.h"
 
+class Airplane : public Thread, public Resource {
+public:
+    int id;
+
+    Airplane();
+    Airplane(const Airplane&) = delete;
+    virtual ~Airplane();
+
+    void live() override;
+
+    static int counter;
 };
 
 

@@ -6,8 +6,20 @@
 #define SO2_P3_CAR_H
 
 
-class Car {
+#include "Base/Thread.h"
+#include "Base/Resource.h"
 
+class Car : public Thread, public Resource {
+public:
+    int id;
+
+    Car();
+    Car(const Car&) = delete;
+    virtual ~Car();
+
+    void live() override;
+
+    static int counter;
 };
 
 

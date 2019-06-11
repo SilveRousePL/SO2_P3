@@ -3,3 +3,17 @@
 //
 
 #include "Passenger.h"
+
+int Passenger::counter = 0;
+
+Passenger::Passenger() : id(counter) {
+    Passenger::counter++;
+}
+
+Passenger::~Passenger() {
+    Passenger::counter--;
+}
+
+void Passenger::live() {
+
+}

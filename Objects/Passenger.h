@@ -6,8 +6,20 @@
 #define SO2_P3_PASSENGER_H
 
 
-class Passenger {
+#include "Base/Thread.h"
+#include "Base/Resource.h"
 
+class Passenger : public Thread, public Resource {
+public:
+    int id;
+
+    Passenger();
+    Passenger(const Passenger&) = delete;
+    virtual ~Passenger();
+
+    void live() override;
+
+    static int counter;
 };
 
 
