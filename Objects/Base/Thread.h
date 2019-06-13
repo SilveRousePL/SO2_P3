@@ -14,6 +14,9 @@ public:
     bool running;
     bool finished;
     bool paused;
+    int global_id;
+
+    static int global_counter;
 
     Thread();
     Thread(const Thread&) = delete;

@@ -15,12 +15,14 @@ class Guard : public Thread, public Resource {
 public:
     enum Status {
         CATCH,
-        RELAX
+        RELAX,
+        FINISHED
     } status;
 
     int id;
-
     std::vector<Passenger*> passenger_vector;
+
+    int caught_passenger;
 
     Guard(std::vector<Passenger*> passenger_vector);
     Guard(const Guard&) = delete;
@@ -30,8 +32,7 @@ public:
 
     void catchPassenger();
 
-    std::string printObject();
-    std::string printStatus();
+    std::string print();
     std::string printProgress();
 
     static int counter;

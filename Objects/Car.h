@@ -14,7 +14,8 @@ public:
     enum Status {
         READY,
         DEPARTURE,
-        ARRIVAL
+        ARRIVAL,
+        FINISHED
     } status;
 
     int id;
@@ -27,8 +28,10 @@ public:
 
     void live() override;
 
-    std::string printObject();
-    std::string printStatus();
+    void waitForPassenger();
+    void letPassengerOut();
+
+    std::string print();
     std::string printProgress();
 
     static int counter;

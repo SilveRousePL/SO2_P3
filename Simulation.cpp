@@ -4,81 +4,48 @@
 
 #include "Simulation.h"
 #include <exception>
-#include <iostream>
 
 Simulation::Simulation(std::vector<size_t> number_of_objects) {
     if(number_of_objects.size() != 5)
         throw std::invalid_argument("Wrong vector size");
+    objects = new Objects(number_of_objects);
 
-    stop_operation = false;
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
-    for(auto i{0}; i < number_of_objects[0]; ++i)
-        airplane.push_back(new Airplane());
-    for(auto i{0}; i < number_of_objects[1]; ++i)
-        car.push_back(new Car());
-    for(auto i{0}; i < number_of_objects[2]; ++i)
-        gate.push_back(new Gate());
-    for(auto i{0}; i < number_of_objects[3]; ++i)
-        guard.push_back(new Guard(passenger));
-    for(auto i{0}; i < number_of_objects[4]; ++i)
-        passenger.push_back(new Passenger(gate, airplane, car));
+    // Visualisation initialization
+    /*std::vector <std::string> id, row_object, progress;
+    std::vector<bool> isFinished;*/
+
+    /*for (auto airplane_it : objects->airplane) {
+        id.push_back(std::to_string(airplane_it->global_counter));
+        row_object.push_back(airplane_it->print());
+        isFinished.push_back(airplane_it->isFinished());
+    }
+
+    for (auto car_it : objects->car) {
+        id.push_back(std::to_string(car_it->global_counter));
+        row_object.push_back(car_it->print());
+        isFinished.push_back(car_it->isFinished());
+    }
+
+    for (auto guard_it : objects->guard) {
+        id.push_back(std::to_string(guard_it->global_counter));
+        row_object.push_back(guard_it->print());
+        isFinished.push_back(guard_it->isFinished());
+    }
+
+    for(auto passenger_it : objects->passenger) {
+        id.push_back(std::to_string(passenger_it->global_counter));
+        row_object.push_back(passenger_it->print());
+        isFinished.push_back(passenger_it->isFinished());
+    }*/
+
+    visualisation = new Visualisation(objects);
+    visualisation->start();
 }
 
 Simulation::~Simulation() {
-    for(auto it : airplane)
-        delete it;
-    for(auto it : car)
-        delete it;
-    for(auto it : gate)
-        delete it;
-    for(auto it : guard)
-        delete it;
-    for(auto it : passenger)
-        delete it;
-
-    /*std::lock_guard<std::mutex> lock(stop_mutex);
-    if(!stop_operation) {
-        stopAll();
-        while (!isAllFinished()) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(20));
-        }
-    }*/
+    delete objects;
+    delete visualisation;
 }
 
-void Simulation::stopAll() {
-    if(stop_operation == true)
-        return;
-    stop_operation = true;
-    for(auto& it : airplane) {
-        it->stop();
-    }
-    for(auto& it : car) {
-        it->stop();
-    }
-    for(auto& it : guard) {
-        it->stop();
-    }
-    for(auto& it : passenger) {
-        it->stop();
-    }
-}
-
-bool Simulation::isAllFinished() {
-    for(auto& it : airplane) {
-        if(!it->isFinished())
-            return false;
-    }
-    for(auto& it : car) {
-        if(!it->isFinished())
-            return false;
-    }
-    for(auto& it : guard) {
-        if(!it->isFinished())
-            return false;
-    }
-    for(auto& it : passenger) {
-        if(!it->isFinished())
-            return false;
-    }
-    return true;
-}

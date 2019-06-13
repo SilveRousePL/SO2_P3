@@ -24,13 +24,15 @@ public:
         IN_AIRPLANE,
         TO_EXIT,        // Guard check
         CAR_QUEUE,
-        IN_CAR
+        IN_CAR,
+        FINISHED
     } status;
 
     int id;
     std::vector<Gate*> gate_vector;
     std::vector<Airplane*> airplane_vector;
     std::vector<Car*> car_vector;
+
 
     Passenger(std::vector<Gate*> gate_vector, std::vector<Airplane*> airplane_vector, std::vector<Car*> car_vector);
     Passenger(const Passenger&) = delete;
@@ -43,8 +45,7 @@ public:
     void entryToCar();
     void goByCar();
 
-    std::string printObject();
-    std::string printStatus();
+    std::string print();
     std::string printProgress();
 
     static int counter;

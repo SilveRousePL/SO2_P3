@@ -9,10 +9,10 @@
 
 class Resource {
 public:
-    enum Status {
+    enum RStatus {
         FREE,
         IN_USE,
-    } status;
+    } rstatus;
 
     int owner_id;
     std::mutex mutex;

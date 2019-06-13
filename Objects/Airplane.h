@@ -13,10 +13,11 @@
 class Airplane : public Thread {
 public:
     enum Status {
+        PREPARING,
         PENDING,
         FLIGHT,
         EXIT,
-        PREPARING
+        FINISHED
     } status;
 
     int id;
@@ -32,8 +33,7 @@ public:
     void letPassengersIn();
     void letPassengersOut();
 
-    std::string printObject();
-    std::string printStatus();
+    std::string print();
     std::string printProgress();
 
     static int counter;
