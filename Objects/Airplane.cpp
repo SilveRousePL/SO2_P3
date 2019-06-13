@@ -16,6 +16,24 @@ Airplane::~Airplane() {
 }
 
 void Airplane::live() {
-    std::cout << "Airplane: " << id << std::endl;
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    status = PENDING;
+    letPassengersIn();
+    status = FLIGHT;
+    wait(4000, 5000);
+    status = EXIT;
+    letPassengersOut();
+    status = PREPARING;
+    wait(2500, 3500);
+}
+
+void Airplane::letPassengersIn() {
+    front_door_in.unlock();
+    wait(10000, 12000);
+    front_door_in.lock();
+}
+
+void Airplane::letPassengersOut() {
+    front_door_out.unlock();
+    wait(1000, 1500);
+    front_door_out.lock();
 }

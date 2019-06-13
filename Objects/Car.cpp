@@ -16,6 +16,11 @@ Car::~Car() {
 }
 
 void Car::live() {
-    std::cout << "Car: " << id << std::endl;
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    status = READY;
+    //TODO: Oczekiwanie na pasażera
+    status = DEPARTURE;
+    wait(2500, 3500);
+    status = ARRIVAL;
+    wait(2500, 3500);
+    //TODO: Wypuść pasażera
 }

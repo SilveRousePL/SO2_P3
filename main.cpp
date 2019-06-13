@@ -2,7 +2,9 @@
 #include "Simulation.h"
 
 int main() {
-    std::vector<size_t> arg({3,2,0,0,0});
+    srand(time(NULL));
+    // vector<size_t>({airplanes, cars, gates, guards, passengers});
+    std::vector<size_t> arg({2,10,6,2,10});
     Simulation s(arg);
     std::this_thread::sleep_for(std::chrono::seconds(5));
     s.stopAll();

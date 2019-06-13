@@ -8,16 +8,33 @@
 
 #include "Base/Thread.h"
 #include "Base/Resource.h"
+#include <vector>
 
-class Airplane : public Thread, public Resource {
+class Airplane : public Thread {
 public:
+    enum Status {
+        PENDING,
+        FLIGHT,
+        EXIT,
+        PREPARING
+    } status;
+
     int id;
+    std::mutex front_door_in;
+    std::mutex front_door_out;
 
     Airplane();
     Airplane(const Airplane&) = delete;
     virtual ~Airplane();
 
     void live() override;
+
+    void letPassengersIn();
+    void letPassengersOut();
+
+    std::string printObject();
+    std::string printStatus();
+    std::string printProgress();
 
     static int counter;
 };

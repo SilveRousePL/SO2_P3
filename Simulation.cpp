@@ -6,18 +6,36 @@
 #include <exception>
 #include <iostream>
 
-Simulation::Simulation(std::vector<size_t> number_of_objects) :
-    airplane(number_of_objects[0]),
-    car(number_of_objects[1]),
-    gate(number_of_objects[2]),
-    guard(number_of_objects[3]),
-    passenger(number_of_objects[4]) {
+Simulation::Simulation(std::vector<size_t> number_of_objects) {
     if(number_of_objects.size() != 5)
         throw std::invalid_argument("Wrong vector size");
+
     stop_operation = false;
+
+    for(auto i{0}; i < number_of_objects[0]; ++i)
+        airplane.push_back(new Airplane());
+    for(auto i{0}; i < number_of_objects[1]; ++i)
+        car.push_back(new Car());
+    for(auto i{0}; i < number_of_objects[2]; ++i)
+        gate.push_back(new Gate());
+    for(auto i{0}; i < number_of_objects[3]; ++i)
+        guard.push_back(new Guard(passenger));
+    for(auto i{0}; i < number_of_objects[4]; ++i)
+        passenger.push_back(new Passenger(gate, airplane, car));
 }
 
 Simulation::~Simulation() {
+    for(auto it : airplane)
+        delete it;
+    for(auto it : car)
+        delete it;
+    for(auto it : gate)
+        delete it;
+    for(auto it : guard)
+        delete it;
+    for(auto it : passenger)
+        delete it;
+
     /*std::lock_guard<std::mutex> lock(stop_mutex);
     if(!stop_operation) {
         stopAll();
@@ -32,34 +50,34 @@ void Simulation::stopAll() {
         return;
     stop_operation = true;
     for(auto& it : airplane) {
-        it.stop();
+        it->stop();
     }
     for(auto& it : car) {
-        it.stop();
+        it->stop();
     }
     for(auto& it : guard) {
-        it.stop();
+        it->stop();
     }
     for(auto& it : passenger) {
-        it.stop();
+        it->stop();
     }
 }
 
 bool Simulation::isAllFinished() {
     for(auto& it : airplane) {
-        if(!it.isFinished())
+        if(!it->isFinished())
             return false;
     }
     for(auto& it : car) {
-        if(!it.isFinished())
+        if(!it->isFinished())
             return false;
     }
     for(auto& it : guard) {
-        if(!it.isFinished())
+        if(!it->isFinished())
             return false;
     }
     for(auto& it : passenger) {
-        if(!it.isFinished())
+        if(!it->isFinished())
             return false;
     }
     return true;

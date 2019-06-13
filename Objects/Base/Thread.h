@@ -10,8 +10,10 @@
 class Thread {
 public:
     std::thread thread;
+    int progress;
     bool running;
     bool finished;
+    bool paused;
 
     Thread();
     Thread(const Thread&) = delete;
@@ -20,8 +22,13 @@ public:
     bool start();
     bool stop();
 
+    void pause();
+    void resume();
+
     void run();
     bool isFinished();
+
+    void wait(int from, int to);
 
     virtual void live() = 0;
 };
