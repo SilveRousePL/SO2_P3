@@ -6,13 +6,14 @@
 
 int Thread::global_counter = 0;
 
-Thread::Thread() : running(false), finished(false), global_id(global_counter), progress(0) {
+Thread::Thread() : running(false), finished(false), global_id(global_counter), progress(0), iteration(1) {
     global_counter++;
     this->start();
 }
 
 Thread::~Thread() {
     global_counter--;
+    thread.join();
 }
 
 bool Thread::start() {
@@ -39,8 +40,10 @@ void Thread::resume() {
 }
 
 void Thread::run() {
-    while(running)
+    while(running) {
         live();
+        iteration++;
+    }
     finished = true;
     if (thread.joinable())
         thread.detach();
@@ -48,6 +51,10 @@ void Thread::run() {
 
 bool Thread::isFinished() {
     return finished;
+}
+
+bool Thread::isFinishing() {
+    return !running;
 }
 
 void Thread::wait(int from, int to) {

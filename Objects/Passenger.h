@@ -29,12 +29,14 @@ public:
     } status;
 
     int id;
-    std::vector<Gate*> gate_vector;
-    std::vector<Airplane*> airplane_vector;
-    std::vector<Car*> car_vector;
+    std::vector<Gate*>& gate_vector;
+    std::vector<Airplane*>& airplane_vector;
+    std::vector<Car*>& car_vector;
 
+    int how_car_id;
+    int how_gate_id;
 
-    Passenger(std::vector<Gate*> gate_vector, std::vector<Airplane*> airplane_vector, std::vector<Car*> car_vector);
+    Passenger(std::vector<Gate*>& gate_vector, std::vector<Airplane*>& airplane_vector, std::vector<Car*>& car_vector);
     Passenger(const Passenger&) = delete;
     virtual ~Passenger();
 
@@ -42,8 +44,8 @@ public:
 
     void entryToAirplane();
     void flyByAirplane();
-    void entryToCar();
-    void goByCar();
+    void entryAndGoCar();
+    //void goByCar();
 
     std::string print();
     std::string printProgress();

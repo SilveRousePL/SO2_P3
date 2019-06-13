@@ -9,6 +9,8 @@ int Airplane::counter = 0;
 
 Airplane::Airplane() : id(counter) {
     Airplane::counter++;
+    front_door_in.lock();
+    front_door_out.lock();
 }
 
 Airplane::~Airplane() {
@@ -24,11 +26,13 @@ void Airplane::live() {
     wait(4000, 5000);
     status = EXIT;
     letPassengersOut();
+    if(isFinishing() == true)
+        status = FINISHED;
 }
 
 void Airplane::letPassengersIn() {
     front_door_in.unlock();
-    wait(10000, 12000);
+    wait(7000, 14000);
     front_door_in.lock();
 }
 
@@ -44,23 +48,24 @@ std::string Airplane::print() {
     result += '\t';
     switch(status) {
         case Status::PREPARING:
-            result += "Preparing                ";
+            result += "Preparing         ";
             break;
         case Status::PENDING:
-            result += "Pending                  ";
+            result += "Pending           ";
             break;
         case Status::FLIGHT:
-            result += "Flight                   ";
+            result += "Flight            ";
             break;
         case Status::EXIT:
-            result += "Exit                     ";
+            result += "Exit              ";
             break;
         case Status::FINISHED:
-            result += "Finished                 ";
+            result += "Finished          ";
             break;
         default:
-            result += "                         ";
+            result += "                  ";
     }
+    result += "Iteration: " + std::to_string(iteration);
     return result;
 }
 
@@ -72,10 +77,10 @@ std::string Airplane::printProgress() {
     while (current--) {
         switch (status) {
             case Status::PENDING:
-                bar += "#";
+                bar += ".";
                 break;
             case Status::FLIGHT:
-                bar += "#";
+                bar += ">";
                 break;
             case Status::EXIT:
                 bar += "#";

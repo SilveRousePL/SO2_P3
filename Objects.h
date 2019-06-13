@@ -26,19 +26,19 @@ public:
     Objects(std::vector<size_t> number_of_objects) {
         stop_operation = false;
 
-        for(auto i{0}; i < number_of_objects[0]; ++i)
-            airplane.push_back(new Airplane());
-        for(auto i{0}; i < number_of_objects[1]; ++i)
-            car.push_back(new Car());
         for(auto i{0}; i < number_of_objects[2]; ++i)
             gate.push_back(new Gate());
+        for(auto i{0}; i < number_of_objects[0]; ++i)
+            airplane.push_back(new Airplane());
         for(auto i{0}; i < number_of_objects[3]; ++i)
             passenger.push_back(new Passenger(gate, airplane, car));
+        for(auto i{0}; i < number_of_objects[1]; ++i)
+            car.push_back(new Car());
         for(auto i{0}; i < number_of_objects[4]; ++i)
             guard.push_back(new Guard(passenger));
     }
     virtual ~Objects() {
-        for(auto it : airplane)
+    /*    for(auto it : airplane)
             delete it;
         for(auto it : car)
             delete it;
@@ -47,7 +47,7 @@ public:
         for(auto it : guard)
             delete it;
         for(auto it : passenger)
-            delete it;
+            delete it;*/
     }
 
     void stopAll() {
@@ -124,6 +124,16 @@ public:
                 return it->print();
         }
         return "";
+    }
+
+    int freeGates() {
+        int result = 0;
+        for(auto it : gate) {
+            if(it->rstatus == Gate::RStatus::FREE) {
+                result++;
+            }
+        }
+        return result;
     }
 };
 

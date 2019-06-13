@@ -5,7 +5,6 @@
 #ifndef SO2_P3_THREAD_H
 #define SO2_P3_THREAD_H
 #include <thread>
-#include "../../Sync.h"
 
 class Thread {
 public:
@@ -15,6 +14,7 @@ public:
     bool finished;
     bool paused;
     int global_id;
+    int iteration;
 
     static int global_counter;
 
@@ -30,6 +30,7 @@ public:
 
     void run();
     bool isFinished();
+    bool isFinishing();
 
     void wait(int from, int to);
 

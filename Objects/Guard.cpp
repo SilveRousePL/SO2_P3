@@ -16,10 +16,12 @@ Guard::~Guard() {
 }
 
 void Guard::live() {
-    status = CATCH;
-    catchPassenger();
     status = RELAX;
     wait(2500, 3500);
+    status = CATCH;
+    catchPassenger();
+    if(isFinishing() == true)
+        status = FINISHED;
 }
 
 void Guard::catchPassenger() {
@@ -41,17 +43,18 @@ std::string Guard::print() {
     result += '\t';
     switch(status) {
         case Status::CATCH:
-            result += "Catch P:" + std::to_string(caught_passenger) + "                ";
+            result += "Catch P:" + std::to_string(caught_passenger) + "         ";
             break;
         case Status::RELAX:
-            result += "Relax                    ";
+            result += "Relax             ";
             break;
         case Status::FINISHED:
-            result += "Finished                 ";
+            result += "Finished          ";
             break;
         default:
-            result += "                         ";
+            result += "                  ";
     }
+    result += "Iteration: " + std::to_string(iteration);
     return result;
 }
 
@@ -63,10 +66,10 @@ std::string Guard::printProgress() {
     while (current--) {
         switch (status) {
             case Status::CATCH:
-                bar += "#";
+                bar += "!";
                 break;
             case Status::RELAX:
-                bar += "#";
+                bar += ".";
                 break;
             default:
                 bar += "#";

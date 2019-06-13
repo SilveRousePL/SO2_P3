@@ -20,16 +20,18 @@ void Car::live() {
     status = READY;
     waitForPassenger();
     status = DEPARTURE;
-    wait(2500, 3500);
+    wait(1500, 2500);
     status = ARRIVAL;
-    wait(2500, 3500);
+    wait(3500, 4500);
     letPassengerOut();
+    if(isFinishing() == true)
+        status = FINISHED;
 }
 
 void Car::waitForPassenger() {
     busy.unlock();
-    wait(2000, 2500);
-    busy.lock();
+    wait(3000, 3500);
+    busy.try_lock();
 }
 
 void Car::letPassengerOut() {
@@ -44,20 +46,21 @@ std::string Car::print() {
     result += '\t';
     switch(status) {
         case Status::READY:
-            result += "Ready                    ";
+            result += "Ready             ";
             break;
         case Status::DEPARTURE:
-            result += "Departure                ";
+            result += "Departure         ";
             break;
         case Status::ARRIVAL:
-            result += "Arrival                  ";
+            result += "Arrival           ";
             break;
         case Status::FINISHED:
-            result += "Finished                 ";
+            result += "Finished          ";
             break;
         default:
-            result += "                         ";
+            result += "                  ";
     }
+    result += "Iteration: " + std::to_string(iteration);
     return result;
 }
 
@@ -69,13 +72,13 @@ std::string Car::printProgress() {
     while (current--) {
         switch (status) {
             case Status::READY:
-                bar += "#";
+                bar += ".";
                 break;
             case Status::DEPARTURE:
-                bar += "#";
+                bar += "<";
                 break;
             case Status::ARRIVAL:
-                bar += "#";
+                bar += ">";
                 break;
             default:
                 bar += "#";
