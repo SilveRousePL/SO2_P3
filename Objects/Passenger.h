@@ -45,7 +45,6 @@ public:
     void entryToAirplane();
     void flyByAirplane();
     void entryAndGoCar();
-    //void goByCar();
 
     std::string print();
     std::string printProgress();

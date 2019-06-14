@@ -10,8 +10,6 @@ Simulation::Simulation(std::vector<size_t> number_of_objects) {
         throw std::invalid_argument("Wrong vector size");
     objects = new Objects(number_of_objects);
 
-    //std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
     visualisation = new Visualisation(objects);
     visualisation->start();
 }

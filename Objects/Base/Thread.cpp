@@ -62,9 +62,6 @@ void Thread::wait(int from, int to) {
     this->progress = 0;
     for (progress = 0; progress < 100; progress++) {
         std::this_thread::sleep_for(std::chrono::milliseconds(rand));
-
-        //visualisation.updateTableInfo(globalID, getBlacksmith(), getStatus(), isFinished());
-
         while(paused)
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }

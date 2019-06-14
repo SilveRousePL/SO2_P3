@@ -18,22 +18,26 @@ Guard::~Guard() {
 void Guard::live() {
     status = RELAX;
     wait(2500, 3500);
-    status = CATCH;
     catchPassenger();
     if(isFinishing() == true)
         status = FINISHED;
 }
 
 void Guard::catchPassenger() {
-    for(auto it : passenger_vector) {
-        if((it->status == Passenger::Status::TO_GATE || it->status == Passenger::Status::TO_EXIT) && it->paused == false) {
-            caught_passenger = it->id;
-            it->pause();
+    //for(auto it : passenger_vector) {
+    for (auto i = random()%passenger_vector.size(); i < passenger_vector.size(); ++i) {
+        caught_passenger = passenger_vector[i]->id;
+        std::lock_guard<std::mutex> l(passenger_vector[i]->status_m);
+        status = CATCH;
+        if ((passenger_vector[i]->status == Passenger::Status::TO_GATE || passenger_vector[i]->status == Passenger::Status::TO_EXIT) &&
+                passenger_vector[i]->paused == false) {
+            passenger_vector[i]->pause();
             wait(2500, 3500);
-            it->resume();
+            passenger_vector[i]->resume();
             break;
         }
     }
+    //}
     caught_passenger = -1;
 }
 
@@ -54,7 +58,7 @@ std::string Guard::print() {
         default:
             result += "                  ";
     }
-    result += "Iteration: " + std::to_string(iteration);
+    result += "Iteration: " + std::to_string(iteration) + "  ";
     return result;
 }
 
@@ -75,7 +79,7 @@ std::string Guard::printProgress() {
                 bar += "#";
         }
     }
-    while (space--) {
+    while (space-- > 0) {
         bar += " ";
     }
     bar += "]";

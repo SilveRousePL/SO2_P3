@@ -38,16 +38,25 @@ public:
             guard.push_back(new Guard(passenger));
     }
     virtual ~Objects() {
-    /*    for(auto it : airplane)
+        for(auto it : airplane) {
+            it->thread.join();
             delete it;
-        for(auto it : car)
+        }
+        for(auto it : car) {
+            it->thread.join();
             delete it;
-        for(auto it : gate)
+        }
+        for(auto it : gate) {
             delete it;
-        for(auto it : guard)
+        }
+        for(auto it : guard) {
+            it->thread.join();
             delete it;
-        for(auto it : passenger)
-            delete it;*/
+        }
+        for(auto it : passenger) {
+            it->thread.join();
+            delete it;
+        }
     }
 
     void stopAll() {

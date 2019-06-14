@@ -16,7 +16,9 @@ Passenger::~Passenger() {
 }
 
 void Passenger::live() {
+    status_m.lock();
     status = TO_GATE;
+    status_m.unlock();
     wait(3500, 4500); // Może zostać zablokowany przez ochronę
     int gate_id = random() % gate_vector.size();
     how_gate_id = gate_id;
@@ -32,7 +34,6 @@ void Passenger::live() {
     status = TO_EXIT;
     wait(3500, 4500); // Może zostać zablokowany przez ochronę
     entryAndGoCar(); // CAR_QUEUE -> IN_CAR
-    //goByCar(); // IN_CAR
     if(isFinishing() == true)
         status = FINISHED;
 }
@@ -70,12 +71,6 @@ void Passenger::entryAndGoCar() {
     car_vector[car_id]->exit_mutex.lock();
     car_vector[car_id]->exit_mutex.unlock();
 }
-
-/*void Passenger::goByCar() {
-    status = IN_CAR;
-    car_vector[id]->exit_mutex.lock();
-    car_vector[id]->exit_mutex.unlock();
-}*/
 
 std::string Passenger::print() {
     std::string result = "Passenger:" + std::to_string(id) + "     ";
@@ -115,7 +110,7 @@ std::string Passenger::print() {
         default:
             result += "                  ";
     }
-    result += "Iteration: " + std::to_string(iteration);
+    result += "Iteration: " + std::to_string(iteration) + "  ";
     return result;
 }
 

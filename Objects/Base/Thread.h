@@ -5,6 +5,7 @@
 #ifndef SO2_P3_THREAD_H
 #define SO2_P3_THREAD_H
 #include <thread>
+#include <mutex>
 
 class Thread {
 public:
@@ -15,6 +16,8 @@ public:
     bool paused;
     int global_id;
     int iteration;
+
+    std::mutex status_m;
 
     static int global_counter;
 

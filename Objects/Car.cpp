@@ -60,7 +60,7 @@ std::string Car::print() {
         default:
             result += "                  ";
     }
-    result += "Iteration: " + std::to_string(iteration);
+    result += "Iteration: " + std::to_string(iteration) + "  ";
     return result;
 }
 
